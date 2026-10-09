@@ -1,0 +1,8 @@
+{
+  "site_url": "https://filsat.odehit.com",
+  "token_env": "FILSAT_TOKEN",
+  "concurrency": 1,
+  "services": {
+    "123": { "kind": "codex" }
+  }
+}

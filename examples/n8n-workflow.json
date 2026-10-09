@@ -1,0 +1,23 @@
+{
+  "name": "Filsat local service - demo contract",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {"httpMethod":"POST","path":"filsat-service","responseMode":"responseNode","options":{}},
+      "id":"filsat-webhook","name":"Filsat request","type":"n8n-nodes-base.webhook","typeVersion":2,"position":[0,0],"webhookId":"filsat-service-demo"
+    },
+    {
+      "parameters": {"jsCode":"const body = $input.first().json.body; if (typeof body?.prompt !== 'string') throw new Error('Missing prompt'); return [{json:{text:'Demo workflow received the request. Replace this node with your service implementation.',files:[{name:'receipt.txt',base64:Buffer.from('Filsat n8n connection received. Input files: '+(body.files?.length ?? 0)).toString('base64')} ]}}];"},
+      "id":"filsat-work","name":"Replace with your service","type":"n8n-nodes-base.code","typeVersion":2,"position":[260,0]
+    },
+    {
+      "parameters":{"respondWith":"json","responseBody":"={{ $json }}","options":{}},
+      "id":"filsat-response","name":"Return completed result","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[520,0]
+    }
+  ],
+  "connections": {
+    "Filsat request":{"main":[[{"node":"Replace with your service","type":"main","index":0}]]},
+    "Replace with your service":{"main":[[{"node":"Return completed result","type":"main","index":0}]]}
+  },
+  "settings":{"executionOrder":"v1"}
+}
